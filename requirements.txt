@@ -1,0 +1,18 @@
+# Python pip requirements for MkDocs documentation server
+# This file defines all the plugins and dependencies needed to build and serve
+# Adari documentation with MkDocs.
+#
+# The resulting container image is published to ghcr.io/adaricorp/adari-mkdocs
+# and can be used by any Adari instance to host documentation.
+
+mkdocs-exclude
+mkdocs-gen-files
+mkdocs-literate-nav
+mkdocs-markmap
+mkdocs-material
+mkdocs-mermaid2-plugin
+mkdocs-pdf-export-plugin
+mkdocstrings[python]
+plantuml-markdown
+pygments
+
