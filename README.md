@@ -32,9 +32,9 @@ This container image includes:
 # Run with mounted documentation
 podman run -d \
   -p 8002:8002 \
-  -v /path/to/docs:/docs/docs:ro \
-  -v /path/to/mkdocs.yml:/docs/mkdocs.yml:ro \
-  -v /path/to/src:/docs/src:ro \
+  -v /path/to/docs:/app/docs:ro \
+  -v /path/to/mkdocs.yml:/app/mkdocs.yml:ro \
+  -v /path/to/src:/app/src:ro \
   ghcr.io/adaricorp/adari-mkdocs:latest
 ```
 
@@ -48,16 +48,21 @@ docker build -t adari-mkdocs:local .
 podman build -t adari-mkdocs:local .
 
 # Test it
-docker run -p 8002:8002 -v ./test-docs:/docs/docs:ro adari-mkdocs:local
+docker run -p 8002:8002 -v ./test-docs:/app/docs:ro adari-mkdocs:local
 ```
 
 ### Expected Volume Mounts
 
 The image expects these directories to be mounted at runtime:
 
-- `/docs/docs` - Documentation source files
-- `/docs/mkdocs.yml` - MkDocs configuration
-- `/docs/src` - Python source code (for API documentation via mkdocstrings)
+- `/app/docs` - Documentation source files
+- `/app/mkdocs.yml` - MkDocs configuration
+- `/app/src` - Python source code (for API documentation via mkdocstrings)
+
+### User and Permissions
+
+The container runs as a non-root user (`mkdocs`, UID/GID 999) for security. **No user override is needed** in Nomad or Podman configurations - the Dockerfile's `USER` instruction is automatically respected.
+
 
 ## Development
 
@@ -69,7 +74,7 @@ docker build -t adari-mkdocs:test .
 
 # Run with test documentation
 docker run -p 8002:8002 \
-  -v $(pwd)/test-docs:/docs/docs:ro \
+  -v $(pwd)/test-docs:/app/docs:ro \
   adari-mkdocs:test
 
 # Access at http://localhost:8002
