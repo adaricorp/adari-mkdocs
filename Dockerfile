@@ -26,10 +26,25 @@ WORKDIR /app
 RUN mkdir -p /app/docs /app/src && \
     chown -R mkdocs:mkdocs /app
 
-# Install system dependencies
+# Install system dependencies.
+#
+# git: used by mkdocs plugins that read repo state.
+#
+# The remaining packages are WeasyPrint's native runtime libraries, required by
+# mkdocs-pdf-export-plugin. Without them WeasyPrint fails to import at build time
+# with "cannot load library 'libgobject-2.0-0'" and PDF export silently breaks:
+#   - libpango-1.0-0 / libpangoft2-1.0-0 pull in glib/gobject, cairo, fontconfig
+#     and harfbuzz (WeasyPrint's text-layout stack).
+#   - libharfbuzz-subset0 is needed for font subsetting in the generated PDFs.
+#   - fonts-dejavu-core gives the image at least one real font family so rendered
+#     text isn't blank/tofu.
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
         git \
+        libpango-1.0-0 \
+        libpangoft2-1.0-0 \
+        libharfbuzz-subset0 \
+        fonts-dejavu-core \
     && rm -rf /var/lib/apt/lists/*
 
 # Copy requirements file for docs
@@ -56,4 +71,3 @@ EXPOSE 8002
 # Using 0.0.0.0 to allow external access from the container
 # Using --dirtyreload for faster rebuilds when content changes
 CMD ["mkdocs", "serve", "--dev-addr=0.0.0.0:8002", "--dirtyreload"]
-
