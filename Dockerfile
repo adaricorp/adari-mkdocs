@@ -4,7 +4,7 @@
 #
 # Published to: ghcr.io/adaricorp/adari-mkdocs:latest
 
-FROM python:3.11-slim
+FROM python:3.14-slim
 
 LABEL org.opencontainers.image.source="https://github.com/adaricorp/adari-mkdocs"
 LABEL org.opencontainers.image.description="MkDocs server with Adari documentation plugins"
