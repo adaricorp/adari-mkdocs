@@ -4,15 +4,17 @@
 #
 # The resulting container image is published to ghcr.io/adaricorp/adari-mkdocs
 # and can be used by any Adari instance to host documentation.
+#
+# Versions are pinned so builds are deterministic and Renovate surfaces upstream
+# releases as PRs (see renovate.json). Bump via Renovate, not by editing here.
 
-mkdocs-exclude
-mkdocs-gen-files
-mkdocs-literate-nav
-mkdocs-markmap
-mkdocs-material
-mkdocs-mermaid2-plugin
-mkdocs-pdf-export-plugin
-mkdocstrings[python]
-plantuml-markdown
-pygments
-
+mkdocs-exclude==1.0.2
+mkdocs-gen-files==0.6.1
+mkdocs-literate-nav==0.6.3
+mkdocs-markmap==2.5.2
+mkdocs-material==9.7.7
+mkdocs-mermaid2-plugin==1.2.3
+mkdocs-pdf-export-plugin==0.5.10
+mkdocstrings[python]==1.0.6
+plantuml-markdown==3.11.2
+pygments==2.20.0
