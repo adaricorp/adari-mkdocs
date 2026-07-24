@@ -1,0 +1,22 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:recommended",
+    ":rebaseStalePrs"
+  ],
+  "labels": ["Chore"],
+  "packageRules": [
+    {
+      "description": "Group non-major build-input updates (mkdocs plugins in requirements.txt, the python base image, and GitHub Actions) into one review PR. Merging it rebuilds and republishes :latest; cut a vX.Y.Z GitHub release to advance the pinned tag that adarigod's MKDOCS_VERSION tracks.",
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "mkdocs build inputs",
+      "groupSlug": "mkdocs-inputs"
+    },
+    {
+      "description": "Major bumps (e.g. mkdocs-material 9.x -> 10.x) get their own PR for review.",
+      "matchUpdateTypes": ["major"],
+      "labels": ["Chore", "breaking-change"],
+      "groupName": null
+    }
+  ]
+}
