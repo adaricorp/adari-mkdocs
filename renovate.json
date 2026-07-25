@@ -7,16 +7,22 @@
   "labels": ["Chore"],
   "packageRules": [
     {
-      "description": "Auto-merge grouped non-major build-input updates (mkdocs plugins in requirements.txt, the python base image, and GitHub Actions) as one PR. The image is tagged from the pinned mkdocs-material version, so merging republishes the current tag (or mints a new one when mkdocs-material itself bumps); adarigod's Renovate then follows it via a reviewed PR. Majors stay manual, and an image only publishes on a successful build.",
+      "description": "Auto-merge grouped non-major build-input updates (mkdocs plugins in requirements.txt, the python base image, and GitHub Actions) as one PR. The image is tagged from the pinned mkdocs-material version, so merging republishes the current tag (or mints a new one when mkdocs-material itself bumps); adarigod's Renovate then follows it via a reviewed PR. Base-image and plugin MAJORS stay manual, and an image only publishes on a successful build.",
       "matchUpdateTypes": ["minor", "patch", "digest"],
       "groupName": "mkdocs build inputs",
       "groupSlug": "mkdocs-inputs",
       "automerge": true
     },
     {
-      "description": "Major bumps (e.g. mkdocs-material 9.x -> 10.x) get their own PR for review.",
+      "description": "Major bumps (e.g. mkdocs-material 9.x -> 10.x, python base image) get their own PR for review.",
       "matchUpdateTypes": ["major"],
       "labels": ["Chore", "breaking-change"],
+      "groupName": null
+    },
+    {
+      "description": "Auto-merge ALL GitHub Actions bumps including majors. CI-only, low-risk, and the main source of PR churn on this build repo — keep them fully hands-off. A break is caught by the publish build. (Rule is last so it overrides the major-review rule for action majors.)",
+      "matchManagers": ["github-actions"],
+      "automerge": true,
       "groupName": null
     }
   ]
