@@ -17,4 +17,4 @@ mkdocs-mermaid2-plugin==1.2.3
 mkdocs-pdf-export-plugin==0.5.10
 mkdocstrings[python]==1.0.6
 plantuml-markdown==3.11.2
-pygments==2.20.0
+pygments==2.21.0
